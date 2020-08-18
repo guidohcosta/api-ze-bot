@@ -64,11 +64,21 @@ GEM
     crass (1.0.6)
     diff-lcs (1.4.4)
     erubi (1.9.0)
+    factory_bot (6.1.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.1.0)
+      factory_bot (~> 6.1.0)
+      railties (>= 5.0.0)
+    fast_jsonapi (1.5)
+      activesupport (>= 4.2)
     ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
+    jsonapi-rspec (0.0.9)
+      rspec-core
+      rspec-expectations
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -142,6 +152,10 @@ GEM
       rspec-support (~> 3.9)
     rspec-support (3.9.3)
     ruby_dep (1.5.0)
+    shoulda-matchers (4.3.0)
+      activesupport (>= 4.2.0)
+    simple_enum (2.3.2)
+      activesupport (>= 4.0.0)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -169,10 +183,15 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
+  factory_bot_rails
+  fast_jsonapi
+  jsonapi-rspec
   listen (>= 3.0.5, < 3.2)
   puma (~> 4.1)
   rails (~> 6.0.1)
   rspec-rails
+  shoulda-matchers (~> 4.3.0)
+  simple_enum (~> 2.3.2)
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3 (~> 1.4)
