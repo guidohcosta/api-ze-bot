@@ -1,6 +1,9 @@
 class OrdersController < ApplicationController
   def track
-    render json: { status: 'POSTADO' }
+    order = Order.find(params.require(:id))
+    track = CorreiosRepository.track_order(order.tracking)
+    status = track ? track.delivery_status : 'NÃO POSTADO'
+    render json: { status: status }
   end
 
   def index

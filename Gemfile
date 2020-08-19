@@ -10,6 +10,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'simple_enum', '~> 2.3.2'
 gem 'fast_jsonapi'
 gem 'jsonapi-rspec'
+gem 'correios-sro'
+gem 'rest-client'
 
 group :development, :test do
   gem 'factory_bot_rails'
