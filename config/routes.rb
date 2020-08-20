@@ -4,4 +4,6 @@ Rails.application.routes.draw do
       get :track
     end
   end
+
+  resources :products
 end

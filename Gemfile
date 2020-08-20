@@ -12,6 +12,7 @@ gem 'fast_jsonapi'
 gem 'jsonapi-rspec'
 gem 'correios-sro'
 gem 'rest-client'
+gem 'ransack'
 
 group :development, :test do
   gem 'factory_bot_rails'

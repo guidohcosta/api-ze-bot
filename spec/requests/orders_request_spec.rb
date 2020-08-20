@@ -4,7 +4,10 @@ RSpec.describe "Orders", type: :request do
   let(:body) { JSON.parse(response.body) }
 
   describe '#track' do
-    before { get '/orders/1/track' }
+    before do
+      create_list(:order, 3)
+      get '/orders/1/track'
+    end
 
     it { expect(response).to have_http_status(:success) }
     it { expect(body).to include 'status' => 'POSTADO' }

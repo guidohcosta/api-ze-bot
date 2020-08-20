@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
   end
 
   def index
-    orders = Order.all
+    orders = Order.search(params[:q]).result
     render json: OrderSerializer.
       new(orders).
       serialized_json
