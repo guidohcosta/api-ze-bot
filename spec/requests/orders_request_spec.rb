@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe "Orders", type: :request do
   let(:body) { JSON.parse(response.body) }
+  let!(:order) { create(:order, client: 'Nice client') }
 
   describe '#track' do
     before do
-      create_list(:order, 3)
-      get '/orders/1/track'
+      get "/orders/#{order.code}/track"
     end
 
     it { expect(response).to have_http_status(:success) }
@@ -15,22 +15,20 @@ RSpec.describe "Orders", type: :request do
 
   describe '#index' do
     before do
-      create_list(:order, 3)
       get '/orders'
     end
 
     it { expect(response).to have_http_status(:success) }
-    it { expect(body['data']).to all have_jsonapi_attributes(:client, :tracking, :status) }
+    it { expect(body['data']).to all have_jsonapi_attributes(:client, :tracking, :status, :code) }
   end
 
   describe '#show' do
     before do
-      create_list(:order, 3)
-      get '/orders/1'
+      get "/orders/#{order.id}"
     end
 
     it { expect(response).to have_http_status(:success) }
-    it { expect(body['data']).to have_jsonapi_attributes(:client, :tracking, :status) }
+    it { expect(body['data']).to have_jsonapi_attributes(:client, :tracking, :status, :code) }
   end
 
   describe '#create' do
@@ -40,30 +38,28 @@ RSpec.describe "Orders", type: :request do
     end
 
     it { expect(response).to have_http_status(:success) }
-    it { expect(body['data']).to have_jsonapi_attributes(:client, :tracking, :status) }
-    it { expect(Order.count).to eq 1 }
+    it { expect(body['data']).to have_jsonapi_attributes(:client, :tracking, :status, :code) }
+    it { expect(Order.count).to eq 2 }
   end
 
   describe '#update' do
     before do
-      create(:order, client: "Nice client")
-      patch '/orders/1', params: { order: { client: "Bad client" } }
+      patch "/orders/#{order.id}", params: { order: { client: "Bad client" } }
     end
 
     it { expect(response).to have_http_status(:success) }
-    it { expect(body['data']).to have_jsonapi_attributes(:client, :tracking, :status) }
+    it { expect(body['data']).to have_jsonapi_attributes(:client, :tracking, :status, :code) }
     it { expect(body['data']).to have_attribute(:client).with_value("Bad client") }
     it { expect(Order.count).to eq 1 }
   end
 
   describe '#destroy' do
     before do
-      create(:order)
-      delete '/orders/1'
+      delete "/orders/#{order.id}"
     end
 
     it { expect(response).to have_http_status(:success) }
-    it { expect(body['data']).to have_jsonapi_attributes(:client, :tracking, :status) }
+    it { expect(body['data']).to have_jsonapi_attributes(:client, :tracking, :status, :code) }
     it { expect(Order.count).to eq 0 }
   end
 end

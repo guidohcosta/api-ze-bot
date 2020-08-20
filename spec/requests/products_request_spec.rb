@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe "Products", type: :request do
   let(:body) { JSON.parse(response.body) }
+  let!(:product) { create(:product, name: "Nice name") }
 
   describe '#index' do
     before do
-      create_list(:product, 3)
       get '/products'
     end
 
@@ -15,8 +15,7 @@ RSpec.describe "Products", type: :request do
 
   describe '#show' do
     before do
-      create_list(:product, 3)
-      get '/products/1'
+      get "/products/#{product.id}"
     end
 
     it { expect(response).to have_http_status(:success) }
@@ -31,13 +30,12 @@ RSpec.describe "Products", type: :request do
 
     it { expect(response).to have_http_status(:success) }
     it { expect(body['data']).to have_jsonapi_attributes(:name, :description, :price, :on_sale) }
-    it { expect(Product.count).to eq 1 }
+    it { expect(Product.count).to eq 2 }
   end
 
   describe '#update' do
     before do
-      create(:product, name: "Nice name")
-      patch '/products/1', params: { product: { name: "New name" } }
+      patch "/products/#{product.id}", params: { product: { name: "New name" } }
     end
 
     it { expect(response).to have_http_status(:success) }
@@ -48,8 +46,7 @@ RSpec.describe "Products", type: :request do
 
   describe '#destroy' do
     before do
-      create(:product)
-      delete '/products/1'
+      delete "/products/#{product.id}"
     end
 
     it { expect(response).to have_http_status(:success) }

@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   def track
-    order = Order.find(params.require(:id))
-    track = CorreiosRepository.track_order(order.tracking)
+    order = Order.find_by(code: params.require(:id))
+    track = CorreiosRepository.track_order(order.tracking) if order
     status = track ? track.delivery_status : 'NÃO POSTADO'
     render json: { status: status }
   end
@@ -52,6 +52,6 @@ class OrdersController < ApplicationController
   def order_params
     params.
       require(:order).
-      permit(%i[client tracking status_cd status])
+      permit(%i[client tracking status_cd status code])
   end
 end
