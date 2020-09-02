@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   def track
     order = Order.find_by(code: params.require(:id))
     track = CorreiosRepository.track_order(order.tracking) if order
-    status = track ? track.delivery_status : 'NÃO POSTADO'
+    status = track ? track.delivery_status : 'NÃO ENCONTRADO'
     render json: { status: status }
   end
 
